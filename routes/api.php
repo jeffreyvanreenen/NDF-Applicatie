@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
-use App\Http\Controllers\DeploymentController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +33,6 @@ Route::post('bot/sendmessage', function() {
     return;
 });
 
-Route::get('deploy', [DeploymentController::class, 'deploy']);
+Route::get('/loginazure', [AuthController::class, 'AuthenticateAzure']);
 
 

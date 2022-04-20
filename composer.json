@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "ext-curl": "*",
         "ext-simplexml": "*",
         "atymic/twitter": "^3.1",
         "guzzlehttp/guzzle": "^7.2",
@@ -13,10 +14,11 @@
         "laravel/fortify": "^1.11",
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
+        "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.7",
         "lorisleiva/laravel-search-string": "^1.2",
         "orchestra/parser": "^7.0",
-      "ext-curl": "*"
+        "socialiteproviders/microsoft": "^4.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

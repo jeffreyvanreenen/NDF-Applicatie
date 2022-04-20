@@ -28,4 +28,6 @@ Route::post('/searchterms/save', [NewsController::class, 'SearchTermSave'])->nam
 Route::post('/searchterms/update/{id}', [NewsController::class, 'SearchTermUpdate'])->name('search-terms-update');
 Route::get('/searchterms/delete/{id}', [NewsController::class, 'SearchTermDelete'])->name('search-terms-delete');
 Route::get('/searchresults/{id}', [NewsController::class, 'SearchResults'])->name('search-results');
-Route::get('/twitter', [NewsController::class, 'TwitterSearch'])->name('search-twitter');
+//Route::get('/twitter', [NewsController::class, 'TwitterSearch'])->name('search-twitter');
+
+Route::get('/login/azure', [\App\Http\Controllers\AuthController::class, 'RedirectAzure'])->name('login.azure');
