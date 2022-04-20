@@ -29,7 +29,13 @@
     <div class="flex flex-col w-64 flex-none">
         <div class="p-4"><img src="{{ asset('img/logo.png') }}"> </div>
         <div class=""><hr></div>
-        <div class="p-4">Submenu</div>
+
+        <div class="p-4">
+            <div class=""><a href="{{ route('nieuws') }}">Nieuwsberichten</a></div>
+            <div class=""><a href="{{ route('rssfeeds') }}">RSS Feeds</a></div>
+            <div class=""><a href="{{ route('search-terms-index') }}">Zoektermen</a></div>
+        </div>
+
     </div>
     <div class="flex-auto p-4 border-2 rounded-l-lg overflow-y-auto" style="background-image: url(https://static.intercomassets.com/ember/assets/images/messenger-backgrounds/background-1-99a36524645be823aabcd0e673cb47f8.png)">@yield('content')</div>
 </div>

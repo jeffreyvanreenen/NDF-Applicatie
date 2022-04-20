@@ -7,15 +7,19 @@
     "require": {
         "php": "^8.0.2",
         "ext-simplexml": "*",
+        "atymic/twitter": "^3.1",
         "guzzlehttp/guzzle": "^7.2",
         "irazasyed/telegram-bot-sdk": "dev-develop",
         "laravel/fortify": "^1.11",
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "orchestra/parser": "^7.0"
+        "lorisleiva/laravel-search-string": "^1.2",
+        "orchestra/parser": "^7.0",
+      "ext-curl": "*"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
