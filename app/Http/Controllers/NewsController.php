@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CleanupJob;
 use App\Jobs\RSS_scraperJob;
+use App\Jobs\SearchRSSJob;
 use App\Models\NewsArticle;
 use App\Models\scraper_rss;
 use App\Models\Searchterm;
 use Atymic\Twitter\Contract\Twitter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Telegram\Bot\Api;
 
 class NewsController extends Controller
 {
@@ -30,9 +33,9 @@ class NewsController extends Controller
 
     public function SearchTermsIndex()
     {
-     $searchterms = Searchterm::all();
+        $searchterms = Searchterm::all();
 
-     return view('search.searchtermindex')->with('searchterms', $searchterms);
+        return view('search.searchtermindex')->with('searchterms', $searchterms);
     }
 
     public function SearchTermSave(Request $request)
@@ -40,11 +43,13 @@ class NewsController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'searchterm' => 'required',
+            'telegram_chat_id' => 'nullable|string'
         ]);
 
         $searchterm = new Searchterm;
         $searchterm->name = $request->name;
         $searchterm->searchterm = $request->searchterm;
+        $searchterm->telegram_chat_id = $request->telegram_chat_id;
         $searchterm->save();
 
         return redirect()->back()->with('message', 'Succesvol toegevoegd!');
@@ -55,11 +60,13 @@ class NewsController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'searchterm' => 'required',
+            'telegram_chat_id' => 'nullable|string'
         ]);
 
         $searchterm = Searchterm::find($id);
         $searchterm->name = $request->name;
         $searchterm->searchterm = $request->searchterm;
+        $searchterm->telegram_chat_id = $request->telegram_chat_id;
         $searchterm->save();
 
         return redirect()->back()->with('message', 'Succesvol aangepast!');
@@ -94,13 +101,13 @@ class NewsController extends Controller
 
         if ($xml->channel->image->url != null) {
             $logo = $xml->channel->image->url;
-        }else{
+        } else {
             $logo = 'https://pbs.twimg.com/profile_images/578844000267816960/6cj6d4oZ_400x400.png';
         }
 
         $rssfeed = new scraper_rss;
         $rssfeed->logo = $logo;
-        $rssfeed->omschrijving =  $omschrijving;
+        $rssfeed->omschrijving = $omschrijving;
         $rssfeed->link = $request->link;
         $rssfeed->actief = $request->actief;
         $rssfeed->save();
@@ -111,6 +118,8 @@ class NewsController extends Controller
     public function Rss_Scrape()
     {
         RSS_scraperJob::dispatch();
+        SearchRSSJob::dispatch();
+        CleanupJob::dispatch();
         return redirect()->back()->with('message', 'Scrapen gestart op de achtergrond');
     }
 
@@ -121,7 +130,7 @@ class NewsController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.twitter.com/2/tweets/search/recent?query='.$searchstring.'&max_results=10&sort_order=recency&expansions=author_id,referenced_tweets.id,in_reply_to_user_id,geo.place_id,attachments.media_keys,attachments.poll_ids,entities.mentions.username,referenced_tweets.id.author_id&tweet.fields=id,created_at,text,author_id,in_reply_to_user_id,referenced_tweets,attachments,withheld,geo,entities,public_metrics,possibly_sensitive,source,lang,context_annotations,conversation_id,reply_settings&user.fields=id,created_at,name,username,protected,verified,withheld,profile_image_url,location,url,description,entities,pinned_tweet_id,public_metrics&media.fields=media_key,duration_ms,height,preview_image_url,type,url,width,public_metrics,alt_text&place.fields=id,name,country_code,place_type,full_name,country,contained_within,geo&poll.fields=id,options,voting_status,end_datetime,duration_minutes',
+            CURLOPT_URL => 'https://api.twitter.com/2/tweets/search/recent?query=' . $searchstring . '&max_results=10&sort_order=recency&expansions=author_id,referenced_tweets.id,in_reply_to_user_id,geo.place_id,attachments.media_keys,attachments.poll_ids,entities.mentions.username,referenced_tweets.id.author_id&tweet.fields=id,created_at,text,author_id,in_reply_to_user_id,referenced_tweets,attachments,withheld,geo,entities,public_metrics,possibly_sensitive,source,lang,context_annotations,conversation_id,reply_settings&user.fields=id,created_at,name,username,protected,verified,withheld,profile_image_url,location,url,description,entities,pinned_tweet_id,public_metrics&media.fields=media_key,duration_ms,height,preview_image_url,type,url,width,public_metrics,alt_text&place.fields=id,name,country_code,place_type,full_name,country,contained_within,geo&poll.fields=id,options,voting_status,end_datetime,duration_minutes',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -138,7 +147,6 @@ class NewsController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         dd($response);
-
 
 
     }

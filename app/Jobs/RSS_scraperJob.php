@@ -64,33 +64,8 @@ class RSS_scraperJob implements ShouldQueue
                     $updated_at = scraper_rss::find($rss_feed->id);
                     $updated_at->touch();
 
-//                    //Telegram
-//                    if($artikel->wasRecentlyCreated) {
-//                        $telegram = new Api(env('telegram_bot_token'));
-//
-//                        $message = $item->link.' - '.$item->title;
-//
-//                        $response = $telegram->sendMessage([
-//                            'chat_id' => '-625938409',
-//                            'text' => $message,
-//                        ]);
-//
-//                        $messageId = $response->getMessageId();
-//                    }
-
                 } catch (\Exception $e) {
                     Log::error($e);
-
-//                    //Telegram
-//                    $telegram = new Api(env('telegram_bot_token'));
-//
-//                    $response = $telegram->sendMessage([
-//                        'chat_id' => '-625938409',
-//                        'text' => $e,
-//                    ]);
-//
-//                    $messageId = $response->getMessageId();
-
                     continue;
                 }
             }

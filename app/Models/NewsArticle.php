@@ -25,5 +25,6 @@ class NewsArticle extends Model
       'description',
       'source',
       'author',
+      'flag',
     ];
 }

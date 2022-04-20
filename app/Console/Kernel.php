@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
+use App\Jobs\CleanupJob;
 use App\Jobs\RSS_scraperJob;
+use App\Jobs\SearchRSSJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +19,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new RSS_scraperJob)->everyFifteenMinutes();
+        $schedule->job(new SearchRSSJob)->everyTenMinutes();
+        $schedule->job(new CleanupJob())->everyThreeHours();
     }
 
     /**

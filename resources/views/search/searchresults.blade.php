@@ -36,6 +36,14 @@
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="searchterm" name="searchterm">{{ $searchstring->searchterm }}</textarea>
                 </div>
+                <div class="mb-4 w-3/6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="telegram_chat_id">
+                        Telegram Chat ID (leeglaten is disabled)
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="telegram_chat_id" name="telegram_chat_id" type="text" placeholder="Telegram chat id: bijv. -776907660" value="{{ $searchstring->telegram_chat_id }}">
+                </div>
                 <div class="mb-4 w-1/6">
                     <button
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
