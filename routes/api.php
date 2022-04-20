@@ -33,6 +33,3 @@ Route::post('bot/sendmessage', function() {
     return;
 });
 
-Route::get('/loginazure', [AuthController::class, 'AuthenticateAzure']);
-
-

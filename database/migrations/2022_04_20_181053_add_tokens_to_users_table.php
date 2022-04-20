@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('azure_token')->nullable();
-            $table->string('azure_refresh_token')->nullable();
+            $table->text('azure_token')->nullable();
+            $table->boolean('actief')->default(0);
+            $table->boolean('isAdmin')->default(0);
         });
     }
 
@@ -28,7 +29,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('azure_token');
-            $table->dropColumn('azure_refresh_token');
+            $table->dropColumn('actief');
+            $table->dropColumn('isAdmin');
         });
     }
 };
