@@ -33,7 +33,7 @@ class RSS_scraperJob implements ShouldQueue
                 try {
                     if (!empty($item->pubDate)) {
                         $pubDate = strftime("%Y-%m-%d %H:%M:%S", strtotime($item->pubDate));
-                        $date = Carbon::now()->subHours(24);
+                        $date = Carbon::now()->subHours(48);
                         if ($date >= $pubDate) {
                             continue;
                         }
@@ -50,7 +50,7 @@ class RSS_scraperJob implements ShouldQueue
 
                     $artikel = NewsArticle::firstOrCreate([
                         'title' => $item->title,
-                        'author' => $author,
+                        'link' => $item->link,
                     ],
                         [
                             'pubDate' => $pubDate,
